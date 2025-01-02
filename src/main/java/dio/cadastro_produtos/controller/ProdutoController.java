@@ -1,6 +1,7 @@
 package dio.cadastro_produtos.controller;
 
 import dio.cadastro_produtos.entity.Produto;
+import dio.cadastro_produtos.exception.ProductPriceException;
 import dio.cadastro_produtos.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Produto> produtoSave(@RequestBody Produto produto){
+    public ResponseEntity<Produto> produtoSave(@RequestBody Produto produto) throws ProductPriceException {
         produto = produtoService.saveProduto(produto);
         return ResponseEntity.ok().body(produto);
     }
