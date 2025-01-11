@@ -51,14 +51,23 @@ public class UserService implements UserDetailsService {
 
     public ResponseEntity<?> signin(JwtRequest authenticationRequest, AuthenticationManager authenticationManager) {
         try {
+
+            System.out.println("Tentando autenticar o usuário: " + authenticationRequest.getUsername());
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getSenha(), authenticationManager);
+            System.out.println("Autenticação bem-sucedida!");
 
             final User userDetails = repository.findByUsername(authenticationRequest.getUsername());
+            System.out.println(userDetails);
+            System.out.println(userDetails.getUsername());
+            System.out.println(userDetails.getSenha());
+            System.out.println(userDetails.getRoles());
 
+            System.out.println("Tentando gerar token");
             final String token = jwtTokenUtil.generateToken(userDetails);
-
+            System.out.println("seu token: " + token);
             return ResponseEntity.ok(token);
         } catch (Exception e) {
+            System.out.println("Erro ao autenticar usuário: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.ok(e.getMessage());
         }
